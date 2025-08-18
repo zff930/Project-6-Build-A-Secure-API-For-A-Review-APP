@@ -1,8 +1,7 @@
-// MonggoDB password: XGxZUEiBjxq3fzXT
-// MongoDB connection string: mongodb+srv://zwz108:<db_password>@cluster0.be5yt1t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
 const express = require("express");
 const mongoose = require("mongoose");
+
+const userRoutes = require('./routers/user');
 
 const app = express();
 
@@ -18,41 +17,27 @@ mongoose
     console.error();
   });
 
-// app.use((req, res, next) => {
-//   res.json({ message: "Your request was successful!" });
-// });
-
 app.use(express.json());
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
 
-    // Handle preflight requests immediately
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
+  // Handle preflight requests immediately
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
-    next();
+  next();
 });
 
-app.post("/api/auth/signup", (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-        message: 'User created successfully!'
-    });
-    next();
-});
-
-app.post("/api/auth/login", (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-        message: 'User logged in successfully!'
-    });
-    // next();
-});
-
-
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
