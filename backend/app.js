@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const userRoutes = require('./routers/user');
+const stuffRoutes = require('./routers/sauce');
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/auth', userRoutes);
+app.use('/sauce', sauceRoutes);
 
 module.exports = app;
