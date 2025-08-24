@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const userRoutes = require('./routers/user');
-const stuffRoutes = require('./routers/sauce');
+const sauceRoutes = require('./routers/sauces');
 
 const app = express();
 
@@ -40,6 +40,14 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/auth', userRoutes);
-app.use('/sauce', sauceRoutes);
+app.use('/api/sauces', sauceRoutes);
+
+// // Test code to verify authentication middleware works before adding any sauce to the project.
+// const auth = require("./middleware/auth");
+// app.get("/test-auth", auth, (req, res) => {
+//   res.status(200).json({
+//     message: "Auth middleware passed!",
+//   });
+// });
 
 module.exports = app;
