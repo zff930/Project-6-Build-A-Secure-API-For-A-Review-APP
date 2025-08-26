@@ -55,11 +55,21 @@ exports.updateOneSauce = (req, res, next) => {
 };
 
 exports.deleteOneSauce = (req, res, next) => {
-  Sauce.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Deleted!" }))
-    .catch((err) => res.status(400).json({ error: err }));
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+    if (!sauce) {
+      return res.status(404).json({
+        error: new Error("No such sauce!"),
+      });
+    }
+    if (thing.userId != req.auth.userId) {
+      return res.status(401).json({
+        error: new Error("Unauthorized request!"),
+      });
+    }
+    Sauce.deleteOne({ _id: req.params.id })
+      .then(() => res.status(200).json({ message: "Deleted!" }))
+      .catch((err) => res.status(400).json({ error: err }));
+  });
 };
 
-exports.setLike = (req, res, next) => {
-    
-}
+exports.setLike = (req, res, next) => {};
