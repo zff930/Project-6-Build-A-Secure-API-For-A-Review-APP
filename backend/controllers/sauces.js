@@ -61,7 +61,7 @@ exports.deleteOneSauce = (req, res, next) => {
         error: new Error("No such sauce!"),
       });
     }
-    if (thing.userId != req.auth.userId) {
+    if (sauce.userId != req.auth.userId) {
       return res.status(401).json({
         error: new Error("Unauthorized request!"),
       });
