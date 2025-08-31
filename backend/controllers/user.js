@@ -43,8 +43,6 @@ exports.login = (req, res, status) => {
           expiresIn: "24h",
         });
 
-        console.log("Generated token:", token);
-
         res.status(200).json({
           userId: user._id,
           token: token,
