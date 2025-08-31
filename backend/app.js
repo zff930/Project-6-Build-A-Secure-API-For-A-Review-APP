@@ -1,14 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
-const userRoutes = require('./routers/user');
-const sauceRoutes = require('./routers/sauces');
+const userRoutes = require("./routers/user");
+const sauceRoutes = require("./routers/sauces");
 
 const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://zwz108:XGxZUEiBjxq3fzXT@cluster0.be5yt1t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    process.env.MONGODB_URL
   )
   .then(() => {
     console.log("Successfully connected to MongoDB Atlas!");
@@ -39,8 +40,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/auth', userRoutes);
-app.use('/api/sauces', sauceRoutes);
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/api/auth", userRoutes);
+app.use("/api/sauces", sauceRoutes);
 
 // // Test code to verify authentication middleware works before adding any sauce to the project.
 // const auth = require("./middleware/auth");
