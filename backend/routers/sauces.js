@@ -6,6 +6,8 @@ const multer = require('../middleware/multer-config');
 
 const saucesCtrl = require("../controllers/sauces");
 
+// For every request coming to this endpoint, use the corresponding function on our sauces controller.
+// Add auth middleware and multer before controller.
 router.post("/", auth, multer, saucesCtrl.createSauce);
 router.get("/", auth, saucesCtrl.findAllSauces);
 router.get("/:id", auth, saucesCtrl.findOneSauce);

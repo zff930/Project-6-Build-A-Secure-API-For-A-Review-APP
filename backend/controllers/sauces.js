@@ -2,9 +2,11 @@ const Sauce = require("../models/sauce");
 const fs = require("fs");
 
 /**
- * fjfjfk
+ * Create a sauce with image uploaded
  */
 exports.createSauce = (req, res, next) => {
+  // multer extracts teh file info into req.file
+  // form-data sent along the file will be in req.body
   const url = req.protocol + "://" + req.get("host");
   req.body.sauce = JSON.parse(req.body.sauce);
 
@@ -27,18 +29,27 @@ exports.createSauce = (req, res, next) => {
     .catch((err) => res.status(400).json({ error: err }));
 };
 
+/**
+ * Find all sauces
+ */
 exports.findAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((err) => res.status(400).json({ error: err }));
 };
 
+/**
+ * Find a sauce matching the query _id
+ */
 exports.findOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((err) => res.status(400).json({ error: err }));
 };
 
+/**
+ * Update a sauce matching the query _id
+ */
 exports.updateOneSauce = (req, res, next) => {
   let sauce = new Sauce({ _id: req.params.id });
   let sauceBody;
@@ -74,6 +85,9 @@ exports.updateOneSauce = (req, res, next) => {
     .catch((err) => res.status(400).json({ error: err }));
 };
 
+/**
+ * Delete a sauce matching the query _id
+ */
 exports.deleteOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
     if (!sauce) {
@@ -97,6 +111,10 @@ exports.deleteOneSauce = (req, res, next) => {
   });
 };
 
+/**
+ * Set the number of likes for a sauce by using a reset function 
+ * to prevent a sauce from being liked and disliked at the same time.
+ */
 exports.setLike = (req, res, next) => {
   const userId = req.auth.userId;
   const like = req.body.like;
